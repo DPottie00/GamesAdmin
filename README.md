@@ -15,4 +15,10 @@ This dashboard will allow administators and/or critics to manage game listing an
 - View Game listings
   - (What Data?)
   - Sort Functionaity
-- Code UI and design 
+- Core UI and design 
+
+
+## Technologies
+- ASP.NET
+- Bootstrap
+- TBD Database Implementation
