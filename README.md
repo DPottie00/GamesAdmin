@@ -1,8 +1,8 @@
-# GamesAdmin (Work-In-Progress)
+# TheLootTableAdmin (Work-In-Progress)
 ---
-GamesAdmin (Name Pending) is a admin dashboard for a Work-in-Progress video game review platform web application developed with Bootstrap and ASP.NET
+The Loot Table Admin is a admin dashboard for a Work-in-Progress video game review platform web application developed with Bootstrap and ASP.NET
 
-> GamesAdmin is still in the early stages of planning and development.
+> The Loot Table is still in the early stages of planning and development.
 >
 > This project currently consists of a newly created ASP.NET Core Web App and initial documentation
 >
@@ -10,15 +10,18 @@ GamesAdmin (Name Pending) is a admin dashboard for a Work-in-Progress video game
 
 This dashboard will allow administators and/or critics to manage game listing and reviews on the platform.
 
-## To be Implemented
+## Implemented
 - CRUD functionality
 - View Game listings
-  - (What Data?)
-  - Sort Functionaity
+
+## To be Implemented
+- Field Requirements
+- Sort Functionaity
+- Home Page
 - Core UI and design 
 
 
 ## Technologies
 - ASP.NET
 - Bootstrap
-- TBD Database Implementation
+- MSSQL Server
