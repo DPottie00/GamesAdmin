@@ -1,3 +1,64 @@
+:root {
+    /* My Palette */
+    --theme-body: #ddd4c5;
+    --theme-primary: #00f59f;
+    --theme-secondary: #002629;
+    --theme-background: #12130f;
+
+    /* Overwrite BS (lower style links on page) */
+    --bs-body-color: var(--theme-body);
+    --bs-primary: var(--theme-primary);
+    --bs-secondary: var(--theme-secondary);
+    --bs-body-bg: var(--theme-background);
+    --bs-border-color: var(--theme-primary);
+    
+}
+
+/* Custom Navbar stuff */
+.navbar-theme {
+    background-color: var(--theme-secondary);
+}
+
+
+.navbar-theme .navbar-brand, .navbar-theme .nav-link {
+    color: var(--theme-body);
+}
+
+.navbar-theme .nav-link:hover, .navbar-theme .navbar-brand:hover {
+    color: var(--theme-primary);
+}
+
+/* Footer */
+.footer-theme {
+    background-color: var(--theme-secondary);
+    color: var(--theme-body);
+}
+
+.footer-theme a {
+    color: var(--theme-body);
+}
+
+.footer-theme a:hover {
+    color: var(--theme-primary);
+}
+
+/* Overwrite BS button */
+.btn-primary {
+    --bs-btn-color: var(--theme-background);
+    --bs-btn-bg: var(--theme-primary);
+    --bs-btn-border-color: var(--theme-primary);
+    --bs-btn-hover-color: #002629;
+    --bs-btn-hover-bg: #00d98d;
+    --bs-btn-hover-border-color: #00d98d;
+    --bs-btn-active-color: #002629;
+    --bs-btn-active-bg: #00c982;
+    --bs-btn-active-border-color: #00c982;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem var(--theme-background), 0 0 0 0.25rem var(--theme-primary);
+}
+
 html {
   font-size: 14px;
 }
@@ -8,9 +69,7 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
+
 
 html {
   position: relative;
