@@ -1,17 +1,16 @@
 :root {
-/*     My Palette */
+    /* My Palette */
     --theme-body: #ddd4c5;
     --theme-primary: #00f59f;
     --theme-secondary: #002629;
     --theme-background: #12130f;
-
-/*     Overwrite BS (lower style links on page) */
+    /* Overwrite BS (lower style links on page) */
     --bs-body-color: var(--theme-body);
     --bs-primary: var(--theme-primary);
     --bs-secondary: var(--theme-secondary);
     --bs-body-bg: var(--theme-background);
     --bs-border-color: var(--theme-primary);
-    
+
 }
 
 /* Custom Navbar stuff */
@@ -95,4 +94,12 @@ main {
 /* Make the Calender icon white (not black) */
 input[type="date"]::-webkit-calendar-picker-indicator {
     filter: invert();
+}
+
+a {
+    color: var(--theme-primary);
+}
+
+a:hover {
+    color: #00c982;
 }

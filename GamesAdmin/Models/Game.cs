@@ -21,12 +21,13 @@ namespace GamesAdmin.Models
         [StringLength(32)]
         public string Genre {  get; set; } = string.Empty;  //One Genre per game for now
 
+        [Required]
         [StringLength(32)]
         public string Rating {  get; set; } = string.Empty;   //PEGI/ESRB??????
 
         [Range(0, 100000)]
         [Display(Name = "Time to Beat in Minutes")]
-        public int TimeToBeat { get; set; } //Average In Minutes, Casual Play
+        public int? TimeToBeat { get; set; } //Average In Minutes, Casual Play
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
