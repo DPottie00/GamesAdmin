@@ -1,12 +1,12 @@
 @model GamesAdmin.Models.Game
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add a Game";
 }
 
-<h1>Create</h1>
+<h1>Add a Game</h1>
 
-<h4>Game</h4>
+<h5>Input Game Details</h5>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -45,7 +45,7 @@
 
             <div class="form-group">
                 <label asp-for="ReleaseDate" class="control-label"></label>
-                <input asp-for="ReleaseDate" class="form-control" />
+                <input asp-for="ReleaseDate" type="date" class="form-control" />
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
 

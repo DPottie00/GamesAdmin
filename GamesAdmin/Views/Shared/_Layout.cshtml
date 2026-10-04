@@ -31,7 +31,7 @@
             </div>
         </nav>
     </header>
-    <div class="container flex-grow-1 d-flex">
+    <div class="container @(ViewData["Title"]?.ToString() == "Home Page" ? "flex-grow-1 d-flex": "" )">
         <main role="main" class="@(ViewData["Title"]?.ToString() == "Home Page" ? "flex-grow-1 d-flex justify-content-center align-items-center" : "")">
             @RenderBody()
         </main>

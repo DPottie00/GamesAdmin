@@ -11,12 +11,10 @@ namespace GamesAdmin.Models
 
         [Required]
         [StringLength(512)]
-        [RegularExpression(".")]
         public string Title { get; set; } = string.Empty;
 
         [Required]
         [StringLength(2048)]
-        [RegularExpression(".")]
         public string Summary {  get; set; } = string.Empty;
 
         [Required]
@@ -36,11 +34,9 @@ namespace GamesAdmin.Models
         public DateTime ReleaseDate { get; set; }  //Initial Release -- Think about Early Access titles in future?
 
         [Required]
-        [RegularExpression(".")]
         public string Developer {  get; set; } = string.Empty; //One Dev per game for now
 
         [Required]
-        [RegularExpression(".")]
         public string Platform {  get; set; } = string.Empty; //One Platform per game for now
     }
 }

@@ -1,11 +1,11 @@
 :root {
-    /* My Palette */
+/*     My Palette */
     --theme-body: #ddd4c5;
     --theme-primary: #00f59f;
     --theme-secondary: #002629;
     --theme-background: #12130f;
 
-    /* Overwrite BS (lower style links on page) */
+/*     Overwrite BS (lower style links on page) */
     --bs-body-color: var(--theme-body);
     --bs-primary: var(--theme-primary);
     --bs-secondary: var(--theme-secondary);
@@ -69,8 +69,6 @@ html {
   }
 }
 
-
-
 html {
   position: relative;
   min-height: 100%;
@@ -87,4 +85,10 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+
+/* Make the Calender icon white (not black) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert();
 }
