@@ -29,6 +29,10 @@
 }
 
 /* Footer */
+.footer {
+    height: 60px;
+}
+
 .footer-theme {
     background-color: var(--theme-secondary);
     color: var(--theme-body);
@@ -74,8 +78,8 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 0px;
+main {
+    padding-bottom: 60px;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
