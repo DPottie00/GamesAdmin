@@ -4,70 +4,73 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class ="container py-4">
 
-<div>
-    <h4>Game</h4>
+    <h1>Game Details</h1>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Summary)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Summary)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Genre)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TimeToBeat)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TimeToBeat)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Developer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Developer)
-        </dd>
-    </dl>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Platform)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Platform)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    @*Title/Summary Box*@
+
+        <div class="row ">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+        </div>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Summary)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Summary)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Genre)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Genre)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Rating)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Rating)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.TimeToBeat)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.TimeToBeat)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.ReleaseDate)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Developer)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Developer)
+            </dd>
+        </dl>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => model.Platform)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => model.Platform)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>
