@@ -11,66 +11,82 @@
 
     @*Title/Summary Box*@
 
-        <div class="row ">
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Title)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Title)
-            </dd>
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4>@Html.DisplayFor(model => model.Title)</h4>
+            </div>
+            <div class="col-12">
+                <dt>@Html.DisplayNameFor(model => model.Summary)</dt>
+                <dd>@Html.DisplayFor(model => model.Summary)</dd>
+            </div>
         </div>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Summary)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Summary)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Genre)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Genre)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Rating)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Rating)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.TimeToBeat)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.TimeToBeat)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.ReleaseDate)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Developer)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Developer)
-            </dd>
-        </dl>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => model.Platform)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => model.Platform)
-            </dd>
-        </dl>
-    </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
+           
+        @*Other Info Box*@
+        <div class="row">
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class = "col-sm-5">
+                        @Html.DisplayNameFor(model => model.Genre)
+                    </dt>
+                    <dd class = "col-sm-7">
+                        @Html.DisplayFor(model => model.Genre)
+                    </dd>
+                    <dt class = "col-sm-5">
+                        @Html.DisplayNameFor(model => model.Rating)
+                    </dt>
+                    <dd class = "col-sm-7">
+                        @Html.DisplayFor(model => model.Rating)
+                    </dd>
+                    <dt class = "col-sm-5">
+                        Time To Beat
+                    </dt>
+                    <dd class = "col-sm-7">
+                    
+                    @*Math for Time*@    
+                    @{
+                        var hours = Model.TimeToBeat/60;
+                        var minutes = Model.TimeToBeat % 60;
+                    }
+
+                    @if (hours > 0)
+                    {
+                        @($"{hours}h")
+                    }
+
+                    @if (minutes > 0)
+                    {
+                        @($" {minutes}m")
+                    }
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class = "col-sm-5">
+                        @Html.DisplayNameFor(model => model.ReleaseDate)
+                    </dt>
+                    <dd class = "col-sm-7">
+                        @Html.DisplayFor(model => model.ReleaseDate)
+                    </dd>
+                    <dt class = "col-sm-5">
+                        @Html.DisplayNameFor(model => model.Developer)
+                    </dt>
+                    <dd class = "col-sm-7">
+                        @Html.DisplayFor(model => model.Developer)
+                    </dd>
+                    <dt class = "col-sm-5">
+                        @Html.DisplayNameFor(model => model.Platform)
+                    </dt>
+                    <dd class = "col-sm-7">
+                        @Html.DisplayFor(model => model.Platform)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <hr /> 
+
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
     </div>
 </div>

@@ -4,16 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Games List</h1>
+<h1>Our Games List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
 </p>
 <table class="table table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <a asp-action="Index" asp-route-sortOrder="title">
+                    @Html.DisplayNameFor(model => model.Title)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Genre)
@@ -22,7 +24,9 @@
                 @Html.DisplayNameFor(model => model.Rating)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                <a asp-action="Index" asp-route-sortOrder="releaseDate">
+                    @Html.DisplayNameFor(model => model.ReleaseDate)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Platform)
@@ -49,9 +53,9 @@
                 @Html.DisplayFor(model => item.Platform)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Delete</a>
             </td>
         </tr>
 }

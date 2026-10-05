@@ -13,9 +13,22 @@ public class GamesController : Controller
     }
 
     // GET: GAMES
-    public async Task<IActionResult> Index()    
+    public async Task<IActionResult> Index(string sortOrder)    
     {
-        return View(await _context.Game.OrderBy(game => game.ReleaseDate).ToListAsync());
+        // Take the games list
+        var games = _context.Game.AsQueryable();
+
+        // Switch case to execute sortOrder, will take the game list and order by the sortOrder
+        games = sortOrder switch
+        {
+            "title" => games.OrderBy(game => game.Title),
+            "releaseDate" => games.OrderBy(game => game.ReleaseDate),
+
+            // Fallback
+            _ => games.OrderBy(game => game.ReleaseDate)
+        };
+
+        return View(await games.ToListAsync());
     }
 
     // GET: GAMES/Details/5

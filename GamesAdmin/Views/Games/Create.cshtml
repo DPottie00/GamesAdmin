@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <textarea asp-for="Summary" class="form-control" rows="5"></textarea>     @* Fix scroll appearance if possible *@
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
 
