@@ -15,7 +15,7 @@ public class GamesController : Controller
     // GET: GAMES
     public async Task<IActionResult> Index()    
     {
-        return View(await _context.Game.ToListAsync());
+        return View(await _context.Game.OrderBy(game => game.ReleaseDate).ToListAsync());
     }
 
     // GET: GAMES/Details/5
