@@ -72,6 +72,18 @@
     --bs-table-border-color: var(--theme-primary);
 }
 
+.table th {
+    color: var(--bs-primary)
+}
+
+.table th a {
+    text-decoration: none;
+}
+
+.table th a:hover {
+    text-decoration: underline;
+}
+
 html {
   font-size: 14px;
 }
