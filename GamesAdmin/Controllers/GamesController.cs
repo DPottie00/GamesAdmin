@@ -2,14 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GamesAdmin.Models;
+using GamesAdmin.Services;
 
 public class GamesController : Controller
 {
     private readonly GamesAdminContext _context;
+    private readonly AzureStorageService _blobService;
 
-    public GamesController(GamesAdminContext context)
+    public GamesController(GamesAdminContext context, AzureStorageService azureBlobService)
     {
         _context = context;
+        _blobService = azureBlobService;
     }
 
     // GET: GAMES
@@ -60,10 +63,16 @@ public class GamesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Summary,Genre,Rating,TimeToBeat,ReleaseDate,Developer,Platform")] Game game)
+    public async Task<IActionResult> Create([Bind("Id,Title,Summary,Genre,Rating,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
+
+
+            string imageUrl = await _blobService.UploadFileAsync(imageFile, imageFile.FileName);
+
+            game.ImageUrl = imageUrl;
+
             _context.Add(game);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

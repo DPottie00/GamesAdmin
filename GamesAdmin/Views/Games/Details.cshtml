@@ -15,7 +15,10 @@
             <div class="col-12">
                 <h4>@Html.DisplayFor(model => model.Title)</h4>
             </div>
-            <dl class="col-12">
+            <div class="col-3">
+                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-thumbnail w-100"/>
+            </div>
+            <dl class="col-9">
                 <dt>@Html.DisplayNameFor(model => model.Summary)</dt>
                 <dd>@Html.DisplayFor(model => model.Summary)</dd>
             </dl>

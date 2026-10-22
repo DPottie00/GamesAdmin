@@ -125,3 +125,13 @@ a {
 a:hover {
     color: #00c982;
 }
+
+.thumbnail {
+    height: 45px;
+    width: auto;
+}
+
+
+tr {
+     vertical-align: middle
+}

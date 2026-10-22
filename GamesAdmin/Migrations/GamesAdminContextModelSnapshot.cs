@@ -38,6 +38,10 @@ namespace GamesAdmin.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Platform")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

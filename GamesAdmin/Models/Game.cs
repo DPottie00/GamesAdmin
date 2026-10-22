@@ -39,5 +39,9 @@ namespace GamesAdmin.Models
 
         [Required]
         public string Platform {  get; set; } = string.Empty; //One Platform per game for now
+
+        public string ImageUrl { get; set; } = string.Empty;
+
+
     }
 }
