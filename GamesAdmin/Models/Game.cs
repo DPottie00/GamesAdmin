@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,8 +7,20 @@ namespace GamesAdmin.Models
 {
     public class Game
     {
+        //Primary Key
         [Required]
         public int Id { get; set; } //Auto Increment Unique ID
+
+        //ForeignKey
+        public int GenreId { get; set; }
+
+        [ValidateNever]
+        public Genre Genre { get; set; } = null!;
+
+        public int AudienceRatingId { get; set; }
+
+        [ValidateNever]
+        public AudienceRating AudienceRating { get; set; } = null!;
 
         [Required]
         [StringLength(512)]
@@ -17,13 +30,13 @@ namespace GamesAdmin.Models
         [StringLength(2048)]
         public string Summary {  get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(32)]
-        public string Genre {  get; set; } = string.Empty;  //One Genre per game for now
+        //[Required]
+        //[StringLength(32)]
+        //public string Genre {  get; set; } = string.Empty;  //One Genre per game for now
 
-        [Required]
-        [StringLength(32)]
-        public string Rating {  get; set; } = string.Empty;   //PEGI/ESRB??????
+        //[Required]
+        //[StringLength(32)]
+        //public string Rating {  get; set; } = string.Empty;   //PEGI/ESRB??????
 
         [Range(0, 100000)]
         [Display(Name = "Time to Beat in Minutes")]
@@ -41,7 +54,6 @@ namespace GamesAdmin.Models
         public string Platform {  get; set; } = string.Empty; //One Platform per game for now
 
         public string ImageUrl { get; set; } = string.Empty;
-
 
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GamesAdmin.Models;
 using GamesAdmin.Services;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class GamesController : Controller
 {
@@ -43,6 +44,7 @@ public class GamesController : Controller
         }
 
         var game = await _context.Game
+            .Include(m => m.GenreId)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (game == null)
         {
@@ -55,6 +57,12 @@ public class GamesController : Controller
     // GET: GAMES/Create
     public IActionResult Create()
     {
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreId = new SelectList(genres, "Id", "Title");
+
+        var audienceRating = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
         return View();
     }
 
@@ -63,7 +71,7 @@ public class GamesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Summary,Genre,Rating,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile)
+    public async Task<IActionResult> Create([Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile)
     {
         if (ModelState.IsValid)
         {
@@ -77,6 +85,13 @@ public class GamesController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreId = new SelectList(genres, "Id", "Title");
+
+        var audienceRating = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
         return View(game);
     }
 
@@ -93,6 +108,13 @@ public class GamesController : Controller
         {
             return NotFound();
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreId = new SelectList(genres, "Id", "Title");
+
+        var audienceRating = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
         return View(game);
     }
 
@@ -128,6 +150,13 @@ public class GamesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
+
+        var genres = _context.Genre.ToList();
+        ViewBag.GenreId = new SelectList(genres, "Id", "Title");
+
+        var audienceRating = _context.AudienceRating.ToList();
+        ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
         return View(game);
     }
 

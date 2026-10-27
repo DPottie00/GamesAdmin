@@ -20,12 +20,12 @@
                     @Html.DisplayNameFor(model => model.Title)
                 </a>
             </th>
-            <th>
+            @* <th>
                 @Html.DisplayNameFor(model => model.Genre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rating)
-            </th>
+            </th> *@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="releaseDate">
                     @Html.DisplayNameFor(model => model.ReleaseDate)
@@ -46,12 +46,12 @@
             <td>
                 @Html.DisplayFor(model => item.Title)
             </td>
-            <td>
+            @* <td>
                 @Html.DisplayFor(model => item.Genre)
             </td>
             <td>
                 @Html.DisplayFor(model => item.Rating)
-            </td>
+            </td> *@
             <td>
                 @Html.DisplayFor(model => item.ReleaseDate)
             </td>
