@@ -11,15 +11,13 @@ The Loot Table Admin is a admin dashboard for a Work-in-Progress video game revi
 This dashboard will allow administators and/or critics to manage game listing and reviews on the platform.
 
 ## Implemented
+- Landing Page
 - CRUD functionality
 - View Game listings
+- Core Theme/Palette
 
 ## To be Implemented
-- Field Requirements
-- Sort Functionaity
-- Home Page
-- Core UI and design 
-
+- Better Sort Functionality
 
 ## Technologies
 - ASP.NET
