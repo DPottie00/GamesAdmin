@@ -6,4 +6,5 @@ public class GamesAdminContext(DbContextOptions<GamesAdminContext> options) : Db
     public DbSet<GamesAdmin.Models.Game> Game { get; set; } = default!;
     public DbSet<GamesAdmin.Models.Genre> Genre { get; set; } = default!;
     public DbSet<GamesAdmin.Models.AudienceRating> AudienceRating { get; set; } = default!;
+    public DbSet<GamesAdmin.Models.CriticReview> CriticReview { get; set; } = default!;
 }

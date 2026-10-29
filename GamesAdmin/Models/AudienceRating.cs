@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+
 
 namespace GamesAdmin.Models
 {
+    [Authorize]
     public class AudienceRating
     {
         public int Id { get; set; }

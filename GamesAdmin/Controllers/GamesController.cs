@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using GamesAdmin.Models;
 using GamesAdmin.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
+using GamesAdmin;
 
+[Authorize]
 public class GamesController : Controller
 {
     private readonly GamesAdminContext _context;
@@ -19,6 +22,12 @@ public class GamesController : Controller
     // GET: GAMES
     public async Task<IActionResult> Index(string sortOrder)    
     {
+        var user = User.GetUserId();
+        if (user != null)
+        {
+            Console.WriteLine(user);
+        }
+
         // Take the games list
         var games = _context.Game.AsQueryable();
 
@@ -32,7 +41,10 @@ public class GamesController : Controller
             _ => games.OrderBy(game => game.ReleaseDate)
         };
 
-        return View(await games.ToListAsync());
+        return View(await games
+            .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
+            .ToListAsync());
     }
 
     // GET: GAMES/Details/5
@@ -44,7 +56,8 @@ public class GamesController : Controller
         }
 
         var game = await _context.Game
-            .Include(m => m.GenreId)
+            .Include(m => m.Genre)
+            .Include(m => m.AudienceRating)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (game == null)
         {
@@ -55,6 +68,7 @@ public class GamesController : Controller
     }
 
     // GET: GAMES/Create
+    [Authorize(Roles = "administrator")]
     public IActionResult Create()
     {
         var genres = _context.Genre.ToList();
@@ -71,6 +85,7 @@ public class GamesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Create([Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile)
     {
         if (ModelState.IsValid)
@@ -96,6 +111,7 @@ public class GamesController : Controller
     }
 
     // GET: GAMES/Edit/5
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -123,6 +139,7 @@ public class GamesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,Summary,Genre,Rating,TimeToBeat,ReleaseDate,Developer,Platform")] Game game)
     {
         if (id != game.Id)
@@ -161,6 +178,7 @@ public class GamesController : Controller
     }
 
     // GET: GAMES/Delete/5
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -181,6 +199,7 @@ public class GamesController : Controller
     // POST: GAMES/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "administrator")]
     public async Task<IActionResult> DeleteConfirmed(int? id)
     {
         var game = await _context.Game.FindAsync(id);

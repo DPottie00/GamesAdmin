@@ -3,9 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GamesAdmin.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GamesAdmin.Controllers
 {
+    [Authorize]
     public class GenresController : Controller
     {
         private readonly GamesAdminContext _context;

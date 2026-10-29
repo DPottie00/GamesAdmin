@@ -20,7 +20,11 @@ namespace GamesAdmin.Models
         public int AudienceRatingId { get; set; }
 
         [ValidateNever]
+        [Display(Name = "ESRB Rating")]
         public AudienceRating AudienceRating { get; set; } = null!;
+
+        [ValidateNever]
+        public List<CriticReview> CriticReviews { get; set; } = new List<CriticReview>();
 
         [Required]
         [StringLength(512)]
@@ -30,13 +34,6 @@ namespace GamesAdmin.Models
         [StringLength(2048)]
         public string Summary {  get; set; } = string.Empty;
 
-        //[Required]
-        //[StringLength(32)]
-        //public string Genre {  get; set; } = string.Empty;  //One Genre per game for now
-
-        //[Required]
-        //[StringLength(32)]
-        //public string Rating {  get; set; } = string.Empty;   //PEGI/ESRB??????
 
         [Range(0, 100000)]
         [Display(Name = "Time to Beat in Minutes")]
