@@ -91,8 +91,11 @@ public class GamesController : Controller
         if (ModelState.IsValid)
         {
 
+            string fileName = Guid.NewGuid().ToString();
+            fileName += DateTime.Now.TimeOfDay.ToString() + Path.GetExtension(imageFile.FileName); 
 
-            string imageUrl = await _blobService.UploadFileAsync(imageFile, imageFile.FileName);
+
+            string imageUrl = await _blobService.UploadFileAsync(imageFile, fileName);
 
             game.ImageUrl = imageUrl;
 
@@ -140,7 +143,7 @@ public class GamesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "administrator")]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,Title,Summary,Genre,Rating,TimeToBeat,ReleaseDate,Developer,Platform")] Game game)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile? imageFile)
     {
         if (id != game.Id)
         {
@@ -205,7 +208,16 @@ public class GamesController : Controller
         var game = await _context.Game.FindAsync(id);
         if (game != null)
         {
+
+            if (!string.IsNullOrEmpty(game.ImageUrl))
+            {
+                string fileName = Path.GetFileName(new Uri(game.ImageUrl).LocalPath);
+
+                await _blobService.DeleteFileAsync(fileName);
+            }
+
             _context.Game.Remove(game);
+
         }
 
         await _context.SaveChangesAsync();

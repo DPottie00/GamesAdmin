@@ -56,5 +56,16 @@ namespace GamesAdmin.Services
             // return the URL for the saved file
             return blobClient.Uri.ToString();
         }
+
+        public async Task<bool> DeleteFileAsync(string fileName)
+        {
+            var containerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+
+            var blobClient = containerClient.GetBlobClient(fileName);
+
+            var response = await blobClient.DeleteIfExistsAsync();
+
+            return response.Value;
+        }
     }
 }

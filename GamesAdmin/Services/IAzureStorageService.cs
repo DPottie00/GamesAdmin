@@ -5,5 +5,7 @@
         // Service to upload file to Azure Blob Storage
         // return: the URL of the uploaded file as a string
         public Task<string> UploadFileAsync(IFormFile file, string fileName);
+
+        public Task<bool> DeleteFileAsync(string fileName);
     }
 }
