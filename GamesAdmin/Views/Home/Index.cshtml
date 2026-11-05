@@ -4,21 +4,23 @@
 
 <div class="">
     <div class="text-center d-flex flex-column">
-        <h1 class="display-4">Welcome to The Loot Table's Admin Dashboard</h1>
+        <h1 class="display-4">Welcome to The Loot Table's Dashboard</h1>
         <p>The Loot Table is a video game review platform, but since you're here, I'm sure you knew that already.</p>
         <div class="d-flex justify-content-center gap-2 flex-wrap">
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Games" asp-action="Index">View Game Listings</a>
+                <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Games" asp-action="Index">View Games</a>
                 @if (User.IsInRole("administrator"))
                 {
                     <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Genres" asp-action="Index">View Genres</a>
                     <a class="btn btn-primary btn-lg" asp-area="" asp-controller="AudienceRatings" asp-action="Index">View ESRB Ratings</a>
                 }
-            } else
-            {
+                } else if (User.IsInRole("critic")){
+                    <a class="btn btn-primary btn-lg" asp-area="" asp-controller="CriticReviews" asp-action="Index">View My Reviews</a>
+                } else
+                {
                     <a class="btn btn-primary btn-lg btn-" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
-            }
+                }
             
          </div>
     </div>

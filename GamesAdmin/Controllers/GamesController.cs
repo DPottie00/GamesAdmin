@@ -150,11 +150,43 @@ public class GamesController : Controller
             return NotFound();
         }
 
+        //Retrieve the games info from db
+        var editedGame = await _context.Game.FindAsync(id);
+
+        if (editedGame == null)
+        {
+            return NotFound();
+        }
+
         if (ModelState.IsValid)
         {
+
             try
             {
-                _context.Update(game);
+                //Is there new image?
+                if ( imageFile != null && imageFile.Length > 0)
+                {
+                    //Delete the Old Image
+                    if (!string.IsNullOrEmpty(editedGame.ImageUrl))
+                    {
+                          string oldFileName = Path.GetFileName(new Uri(editedGame.ImageUrl).LocalPath);
+                        await _blobService.DeleteFileAsync(oldFileName);
+                    }
+
+                    //GUID for new image
+                    string fileName = Guid.NewGuid().ToString();
+                    fileName += DateTime.Now.TimeOfDay.ToString() + Path.GetExtension(imageFile.FileName);
+                    
+                    //Upload Image, store url
+                    game.ImageUrl = await _blobService.UploadFileAsync(imageFile, fileName);
+                } else
+                {
+                    //Old Image is new image
+                    game.ImageUrl = editedGame.ImageUrl; 
+                }
+
+                //Overwrite the changes (from game) onto existing game (editedGame)
+                _context.Entry(editedGame).CurrentValues.SetValues(game);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

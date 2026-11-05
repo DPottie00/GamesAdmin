@@ -14,16 +14,20 @@ namespace GamesAdmin.Models
         [ScaffoldColumn(false)]
         public Game Game { get; set; } = null!;
 
+        [Display(Name = "Review")]
         public string Description { get; set; } = string.Empty;
 
         [Required]
         [Range(1,5)]
         public int Rating { get; set; }
 
+        [Display(Name = "Published?")]
         public bool isPublished { get; set; } = false;
 
+        [Display(Name = "Author")]
         public string CreatedBy { get; set; } = string.Empty;
 
+        [Display(Name = "Review Date")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;
     }
 }
