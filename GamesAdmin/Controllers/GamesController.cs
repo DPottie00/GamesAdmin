@@ -55,9 +55,12 @@ public class GamesController : Controller
             return NotFound();
         }
 
+
+
         var game = await _context.Game
             .Include(m => m.Genre)
             .Include(m => m.AudienceRating)
+            .Include(m => m.CriticReviews)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (game == null)
         {

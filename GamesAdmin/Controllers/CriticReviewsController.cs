@@ -49,8 +49,22 @@ namespace GamesAdmin.Controllers
             return review == null ? NotFound() : View(review);
         }
 
-        public IActionResult Create(int gameId)
+        public async Task<IActionResult> Create(int gameId)
         {
+            //Check if a review exists with the same game and author
+            var currentReview = await _context.CriticReview.FirstOrDefaultAsync(r =>
+            r.GameId == gameId && r.CreatedBy == _userId);
+
+            //Send elsewhere depending on state
+            if (currentReview != null)
+            {
+                if (!currentReview.isPublished)
+                {
+                    return RedirectToAction(nameof(Edit), new { id = currentReview.Id });
+                }
+
+                return RedirectToAction(nameof(Details), new { id = currentReview.Id });
+            }
 
             ViewBag.GameId = gameId;
             PopulateGames();
@@ -66,9 +80,21 @@ namespace GamesAdmin.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Add(review);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //Check if a review exists with the same game and author
+                bool isExisting = await _context.CriticReview.AnyAsync(r =>
+                    r.GameId == review.GameId &&
+                    r.CreatedBy == _userId);
+
+                //
+                if (isExisting)
+                {
+                    ModelState.AddModelError("", "You have already reviewed this game.");
+                }
+                else { 
+                    _context.Add(review);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             PopulateGames(review.GameId);
@@ -86,6 +112,9 @@ namespace GamesAdmin.Controllers
             if (review == null)
             {
                 return NotFound();
+            } else if (review.isPublished)
+            {
+                return StatusCode(403);
             }
 
             PopulateGames(review.GameId);
@@ -101,11 +130,18 @@ namespace GamesAdmin.Controllers
                 return NotFound();
             }
 
+            var editedReview = await _context.CriticReview.FindAsync(id);
+
+            if (editedReview == null || editedReview.CreatedBy != _userId || editedReview.isPublished)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(review);
+                    _context.Entry(editedReview).CurrentValues.SetValues(review);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -136,7 +172,15 @@ namespace GamesAdmin.Controllers
                 .Include(review => review.Game)
                 .FirstOrDefaultAsync(review => review.Id == id);
 
-            return review == null ? NotFound() : View(review);
+            if (review == null)
+            {
+                return NotFound();
+            } else if (review.CreatedBy != _userId || review.isPublished)
+            {
+                return StatusCode(403);
+            }
+
+            return View(review);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -144,7 +188,15 @@ namespace GamesAdmin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var review = await _context.CriticReview.FindAsync(id);
-            if (review != null)
+
+            if (review == null)
+            {
+                return NotFound();
+            }
+            else if (review.CreatedBy != _userId || review.isPublished)
+            {
+                return StatusCode(403);
+            } else 
             {
                 _context.CriticReview.Remove(review);
                 await _context.SaveChangesAsync();

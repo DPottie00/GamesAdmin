@@ -12,11 +12,14 @@ namespace GamesAdmin.Models
         public int Id { get; set; } //Auto Increment Unique ID
 
         //ForeignKey
+        [Display(Name = "Genre")]
         public int GenreId { get; set; }
 
         [ValidateNever]
+        [Display(Name = "Genre")]
         public Genre Genre { get; set; } = null!;
 
+        [Display(Name = "ESRB Rating")]
         public int AudienceRatingId { get; set; }
 
         [ValidateNever]

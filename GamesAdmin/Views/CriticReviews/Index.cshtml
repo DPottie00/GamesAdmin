@@ -4,13 +4,12 @@
 }
 
 <h1>@(User.FindFirst("nickname")?.Value)'s Reviews</h1>
-
+<h3>Published Reviews</h3>
 <table class="table">
     <thead>
         <tr>
             <th>@Html.DisplayNameFor(model => model.Game)</th>
             <th>@Html.DisplayNameFor(model => model.Rating)</th>
-            <th>@Html.DisplayNameFor(model => model.isPublished)</th>
             <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
             <th></th>
         </tr>
@@ -18,17 +17,48 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Game.Title)</td>
-                <td>@Html.DisplayFor(modelItem => item.Rating)</td>
-                <td>@Html.DisplayFor(modelItem => item.isPublished)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
+            @if (item.isPublished)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Game.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-sm">Details</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<br />
+<h3>Your Drafts</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Game)</th>
+            <th>@Html.DisplayNameFor(model => model.Rating)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (!item.isPublished)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Game.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Rating)</td>
+                    <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a> 
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Details</a> 
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>

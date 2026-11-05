@@ -15,10 +15,11 @@ namespace GamesAdmin.Models
         public Game Game { get; set; } = null!;
 
         [Display(Name = "Review")]
+        [MaxLength(2056)]
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        [Range(1,5)]
+        [Range(0,5)]
         public int Rating { get; set; }
 
         [Display(Name = "Published?")]

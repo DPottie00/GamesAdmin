@@ -14,13 +14,14 @@
                 {
                     <a class="btn btn-primary btn-lg" asp-area="" asp-controller="Genres" asp-action="Index">View Genres</a>
                     <a class="btn btn-primary btn-lg" asp-area="" asp-controller="AudienceRatings" asp-action="Index">View ESRB Ratings</a>
-                }
-                } else if (User.IsInRole("critic")){
+                } else if (User.IsInRole("critic"))
+                {
                     <a class="btn btn-primary btn-lg" asp-area="" asp-controller="CriticReviews" asp-action="Index">View My Reviews</a>
                 } else
                 {
                     <a class="btn btn-primary btn-lg btn-" asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
                 }
+            }
             
          </div>
     </div>
