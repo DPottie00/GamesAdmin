@@ -11,6 +11,7 @@ namespace GamesAdmin.Models
         public int GameId { get; set; }
 
         [ValidateNever]
+        [ScaffoldColumn(false)]
         public Game Game { get; set; } = null!;
 
         public string Description { get; set; } = string.Empty;

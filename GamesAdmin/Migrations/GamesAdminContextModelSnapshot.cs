@@ -16,7 +16,7 @@ namespace GamesAdmin.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.13")
+                .HasAnnotation("ProductVersion", "10.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -36,6 +36,41 @@ namespace GamesAdmin.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AudienceRating");
+                });
+
+            modelBuilder.Entity("GamesAdmin.Models.CriticReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isPublished")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("CriticReview");
                 });
 
             modelBuilder.Entity("GamesAdmin.Models.Game", b =>
@@ -106,6 +141,17 @@ namespace GamesAdmin.Migrations
                     b.ToTable("Genre");
                 });
 
+            modelBuilder.Entity("GamesAdmin.Models.CriticReview", b =>
+                {
+                    b.HasOne("GamesAdmin.Models.Game", "Game")
+                        .WithMany("CriticReviews")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Game");
+                });
+
             modelBuilder.Entity("GamesAdmin.Models.Game", b =>
                 {
                     b.HasOne("GamesAdmin.Models.AudienceRating", "AudienceRating")
@@ -128,6 +174,11 @@ namespace GamesAdmin.Migrations
             modelBuilder.Entity("GamesAdmin.Models.AudienceRating", b =>
                 {
                     b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("GamesAdmin.Models.Game", b =>
+                {
+                    b.Navigation("CriticReviews");
                 });
 
             modelBuilder.Entity("GamesAdmin.Models.Genre", b =>

@@ -90,7 +90,14 @@
 
     @* Buttons *@
     <div class="d-flex gap-2">
-        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        @if (User.IsInRole("administrator"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">Edit</a>
+        }
         <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        @if (User.IsInRole("critic"))
+        {
+        <a asp-controller="CriticReviews" asp-action="Create" asp-route-gameId="@Model?.Id" class="btn btn-primary">Post Review</a>
+        }
     </div>
 </div>

@@ -1,15 +1,24 @@
 using GamesAdmin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace GamesAdmin.Controllers
 {
-    [Authorize(Roles = "administrator")]
+    [Authorize(Roles = "critic")]
     public class CriticReviewsController : Controller
     {
         private readonly GamesAdminContext _context;
+        private string? _userId;
+
+        //Is called after constructir code but before action method.
+        public override void OnActionExecuting(ActionExecutingContext context)
+        {
+            base.OnActionExecuting(context);
+            _userId = User.GetUserId();
+        }
 
         public CriticReviewsController(GamesAdminContext context)
         {
@@ -19,6 +28,7 @@ namespace GamesAdmin.Controllers
         public async Task<IActionResult> Index()
         {
             var reviews = await _context.CriticReview
+                .Where(review => review.CreatedBy == _userId)
                 .Include(review => review.Game)
                 .ToListAsync();
 
@@ -39,16 +49,21 @@ namespace GamesAdmin.Controllers
             return review == null ? NotFound() : View(review);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int gameId)
         {
+
+            ViewBag.GameId = gameId;
             PopulateGames();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GameId,Description,Rating,isPublished,CreatedBy,CreatedDate")] CriticReview review)
+        public async Task<IActionResult> Create([Bind("Id,GameId,Description,Rating,isPublished")] CriticReview review)
         {
+            review.CreatedDate = DateTime.Now;
+            review.CreatedBy = _userId;
+
             if (ModelState.IsValid)
             {
                 _context.Add(review);
