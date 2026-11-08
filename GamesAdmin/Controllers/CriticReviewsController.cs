@@ -66,8 +66,15 @@ namespace GamesAdmin.Controllers
                 return RedirectToAction(nameof(Details), new { id = currentReview.Id });
             }
 
+            var game = await _context.Game.FindAsync(gameId);
+
+            if (game == null)
+                return NotFound();
+
             ViewBag.GameId = gameId;
-            PopulateGames();
+            ViewBag.GameTitle = game.Title;
+            ViewBag.GameImageUrl = game.ImageUrl;
+
             return View();
         }
 
@@ -76,7 +83,7 @@ namespace GamesAdmin.Controllers
         public async Task<IActionResult> Create([Bind("Id,GameId,Description,Rating,isPublished")] CriticReview review)
         {
             review.CreatedDate = DateTime.Now;
-            review.CreatedBy = _userId;
+            review.CreatedBy = _userId!;
 
             if (ModelState.IsValid)
             {
@@ -93,11 +100,10 @@ namespace GamesAdmin.Controllers
                 else { 
                     _context.Add(review);
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Details), new {id = review.Id});
                 }
             }
 
-            PopulateGames(review.GameId);
             return View(review);
         }
 
@@ -112,18 +118,22 @@ namespace GamesAdmin.Controllers
             if (review == null)
             {
                 return NotFound();
-            } else if (review.isPublished)
+            } else if (review.isPublished || review.CreatedBy != _userId)
             {
                 return StatusCode(403);
             }
+            var game = await _context.Game.FindAsync(review.GameId);
 
-            PopulateGames(review.GameId);
+            ViewBag.GameId = game!.Id;
+            ViewBag.GameTitle = game.Title;
+            ViewBag.GameImageUrl = game.ImageUrl;
+
             return View(review);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,GameId,Description,Rating,isPublished,CreatedBy,CreatedDate")] CriticReview review)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,GameId,Description,Rating,isPublished")] CriticReview review)
         {
             if (id != review.Id)
             {
@@ -132,16 +142,24 @@ namespace GamesAdmin.Controllers
 
             var editedReview = await _context.CriticReview.FindAsync(id);
 
-            if (editedReview == null || editedReview.CreatedBy != _userId || editedReview.isPublished)
+            if (editedReview == null )
             {
                 return NotFound();
+            }
+            else if (editedReview.isPublished || editedReview.CreatedBy != _userId)
+            {
+                return StatusCode(403);
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Entry(editedReview).CurrentValues.SetValues(review);
+                    editedReview.Description = review.Description;
+                    editedReview.Rating = review.Rating;
+                    editedReview.isPublished = review.isPublished;
+                    editedReview.CreatedDate = DateTime.Now;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -154,10 +172,9 @@ namespace GamesAdmin.Controllers
                     throw;
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = review.Id});
             }
 
-            PopulateGames(review.GameId);
             return View(review);
         }
 
@@ -205,9 +222,22 @@ namespace GamesAdmin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private void PopulateGames(int? selectedGameId = null)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Publish(int id)
         {
-            ViewData["GameId"] = new SelectList(_context.Game.OrderBy(game => game.Title), "Id", "Title", selectedGameId);
+            var review = await _context.CriticReview
+                .FirstOrDefaultAsync(r => r.Id == id && r.CreatedBy == _userId);
+
+            if (review == null)
+                return NotFound();
+
+            review.isPublished = true;
+            review.CreatedDate = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id = review.Id });
         }
 
         private bool CriticReviewExists(int id)

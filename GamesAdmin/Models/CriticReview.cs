@@ -8,6 +8,7 @@ namespace GamesAdmin.Models
         public int Id { get; set; }
 
         //foreign key
+        [Display(Name = "Game")]
         public int GameId { get; set; }
 
         [ValidateNever]
@@ -20,6 +21,7 @@ namespace GamesAdmin.Models
 
         [Required]
         [Range(0,5)]
+        [Display(Name = "Rating (1 - 5)")]
         public int Rating { get; set; }
 
         [Display(Name = "Published?")]

@@ -6,14 +6,14 @@
 
 <div class ="container py-4">
 
-    <h1>Game Details</h1>
-    <hr />
-
     @*Title/Summary Box*@
 
         <div class="row mb-4">
-            <div class="col-12">
+            <div class="col-6">
                 <h4>@Html.DisplayFor(model => model.Title)</h4>
+            </div>
+            <div class="col-6">
+                <h6 class="text-end">Reviews: @Model.CriticReviews.Count</h6>
             </div>
             <div class="col-3">
                 <img src="@Model.ImageUrl" alt="@Model.Title" class="img-thumbnail w-100"/>
@@ -97,7 +97,7 @@
         <a asp-action="Index" class="btn btn-primary">Back to List</a>
         @if (User.IsInRole("critic"))
         {
-        <a asp-controller="CriticReviews" asp-action="Create" asp-route-gameId="@Model?.Id" class="btn btn-primary">Post Review</a>
+            <a asp-controller="CriticReviews" asp-action="Create" asp-route-gameId="@Model?.Id" class="btn btn-primary">Post Review</a>
         }
     </div>
 </div>
