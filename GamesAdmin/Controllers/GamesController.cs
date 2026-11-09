@@ -44,6 +44,7 @@ public class GamesController : Controller
         return View(await games
             .Include(m => m.Genre)
             .Include(m => m.AudienceRating)
+            .Include(m => m.Platform)
             .ToListAsync());
     }
 
@@ -61,6 +62,8 @@ public class GamesController : Controller
             .Include(m => m.Genre)
             .Include(m => m.AudienceRating)
             .Include(m => m.CriticReviews)
+            .Include(m => m.Platform)
+            .Include(m => m.Developer)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (game == null)
         {
@@ -84,6 +87,16 @@ public class GamesController : Controller
             .ToList();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
 
+        var developers = _context.Developer
+            .OrderBy(d => d.Name)
+            .ToList();
+        ViewBag.Developers = developers;
+
+        var platforms = _context.Platform
+            .OrderBy(p => p.Name)
+            .ToList();
+        ViewBag.Platforms = platforms;
+
         return View();
     }
 
@@ -93,8 +106,33 @@ public class GamesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "administrator")]
-    public async Task<IActionResult> Create([Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile)
+    public async Task<IActionResult> Create([Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile imageFile, string developerName, string platformName)
     {
+        //Check if given Dev/platform exists
+        var developer = await _context.Developer
+            .FirstOrDefaultAsync(d => d.Name == developerName);
+
+        if (developer == null)
+        {
+            ModelState.AddModelError("developerName", "Please select an existing developer.");
+        }
+        else
+        {
+            game.DeveloperId = developer.Id;
+        }
+
+        var platform = await _context.Platform
+            .FirstOrDefaultAsync(p => p.Name == platformName);
+
+        if (platform == null)
+        {
+            ModelState.AddModelError("platformName", "Please select an existing platform.");
+        }
+        else
+        {
+            game.PlatformId = platform.Id;
+        }
+
         if (ModelState.IsValid)
         {
 
@@ -116,6 +154,16 @@ public class GamesController : Controller
 
         var audienceRating = _context.AudienceRating.ToList();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
+        var developers = await _context.Developer
+             .OrderBy(d => d.Name)
+             .ToListAsync();
+        ViewBag.Developers = developers;
+
+        var platforms = await _context.Platform
+            .OrderBy(p => p.Name)
+            .ToListAsync();
+        ViewBag.Platforms = platforms;
 
         return View(game);
     }
@@ -145,6 +193,23 @@ public class GamesController : Controller
             .ToListAsync();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
 
+        var developers = await _context.Developer
+            .OrderBy(d => d.Name)
+            .ToListAsync();
+        ViewBag.Developers = developers;
+
+        var platforms = await _context.Platform
+            .OrderBy(p => p.Name)
+            .ToListAsync();
+        ViewBag.Platforms = platforms;
+
+        //Current
+        ViewBag.DeveloperName = developers
+            .FirstOrDefault(d => d.Id == game.DeveloperId)?.Name;
+
+        ViewBag.PlatformName = platforms
+            .FirstOrDefault(p => p.Id == game.PlatformId)?.Name;
+
         return View(game);
     }
 
@@ -154,8 +219,33 @@ public class GamesController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = "administrator")]
-    public async Task<IActionResult> Edit(int? id, [Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,Developer,Platform,ImageUrl")] Game game, IFormFile? imageFile)
+    public async Task<IActionResult> Edit(int? id, [Bind("Id,GenreId,AudienceRatingId,Title,Summary,TimeToBeat,ReleaseDate,ImageUrl")] Game game, IFormFile? imageFile, string developerName, string platformName)
     {
+        //Check if dev/platform exists
+        var developer = await _context.Developer
+            .FirstOrDefaultAsync(d => d.Name == developerName);
+
+        if (developer == null)
+        {
+            ModelState.AddModelError("developerName", "Please select an existing developer.");
+        }
+        else
+        {
+            game.DeveloperId = developer.Id;
+        }
+
+        var platform = await _context.Platform
+            .FirstOrDefaultAsync(p => p.Name == platformName);
+
+        if (platform == null)
+        {
+            ModelState.AddModelError("platformName", "Please select an existing platform.");
+        }
+        else
+        {
+            game.PlatformId = platform.Id;
+        }
+
         if (id != game.Id)
         {
             return NotFound();
@@ -219,6 +309,22 @@ public class GamesController : Controller
 
         var audienceRating = _context.AudienceRating.ToList();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
+
+        var developers = await _context.Developer
+            .OrderBy(d => d.Name)
+            .ToListAsync();
+        ViewBag.Developers = developers;
+
+        var platforms = await _context.Platform
+            .OrderBy(p => p.Name)
+            .ToListAsync();
+        ViewBag.Platforms = platforms;
+
+        ViewBag.DeveloperName = developerName;
+        ViewBag.PlatformName = platformName;
+
+        //Make sure gameImage is handled upon failed state check
+        game.ImageUrl = editedGame.ImageUrl;
 
         return View(game);
     }

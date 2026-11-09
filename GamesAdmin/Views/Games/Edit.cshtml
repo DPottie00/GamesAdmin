@@ -45,14 +45,31 @@
                 <span asp-validation-for="ReleaseDate" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Developer" class="formLabel"></label>
-                <input asp-for="Developer" class="form-control" />
-                <span asp-validation-for="Developer" class="text-danger"></span>
+                <label for="developerName" class="form-label">Developer</label>
+                <input type="text" id="developerName" name="developerName" class="form-control" list="developerList" value="@ViewBag.DeveloperName" />
+
+                <datalist id="developerList">
+                    @foreach (var developer in ViewBag.Developers)
+                    {
+                        <option value="@developer.Name"></option>
+                    }
+                </datalist>
+
+                @Html.ValidationMessage("developerName", "", new { @class = "text-danger" })
             </div>
+
             <div class="mb-3">
-                <label asp-for="Platform" class="formLabel"></label>
-                <input asp-for="Platform" class="form-control" />
-                <span asp-validation-for="Platform" class="text-danger"></span>
+                <label for="platformName" class="form-label">Platform</label>
+                <input type="text" id="platformName" name="platformName" class="form-control" list="platformList" value="@ViewBag.PlatformName" />
+
+                <datalist id="platformList">
+                    @foreach (var platform in ViewBag.Platforms)
+                    {
+                        <option value="@platform.Name"></option>
+                    }
+                </datalist>
+
+                @Html.ValidationMessage("platformName", "", new { @class = "text-danger" })
             </div>
             <div class="mb-3">
                 <div class="mb-3">

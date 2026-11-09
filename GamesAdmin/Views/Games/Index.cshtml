@@ -58,7 +58,7 @@
                 @Html.DisplayFor(model => item.ReleaseDate)
             </td>
             <td>
-                @Html.DisplayFor(model => item.Platform)
+                @Html.DisplayFor(model => item.Platform.Name)
             </td>
             <td>
                 @if (User.IsInRole("administrator"))
