@@ -74,10 +74,14 @@ public class GamesController : Controller
     [Authorize(Roles = "administrator")]
     public IActionResult Create()
     {
-        var genres = _context.Genre.ToList();
+        var genres = _context.Genre
+            .OrderBy(g => g.Title)
+            .ToList();
         ViewBag.GenreId = new SelectList(genres, "Id", "Title");
 
-        var audienceRating = _context.AudienceRating.ToList();
+        var audienceRating = _context.AudienceRating
+            .OrderBy(r => r.Order)
+            .ToList();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
 
         return View();
@@ -131,10 +135,14 @@ public class GamesController : Controller
             return NotFound();
         }
 
-        var genres = _context.Genre.ToList();
+        var genres = await _context.Genre
+            .OrderBy(g => g.Title)
+            .ToListAsync();
         ViewBag.GenreId = new SelectList(genres, "Id", "Title");
 
-        var audienceRating = _context.AudienceRating.ToList();
+        var audienceRating = await _context.AudienceRating
+            .OrderBy(r => r.Order)
+            .ToListAsync();
         ViewBag.AudienceRatingId = new SelectList(audienceRating, "Id", "Title");
 
         return View(game);

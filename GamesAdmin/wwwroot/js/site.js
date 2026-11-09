@@ -12,6 +12,7 @@ document.querySelectorAll(".image-upload").forEach(input => {
             //Do onload (display image)
             reader.onload = function (e) {      
                 preview.src = e.target.result;
+                preview.classList.remove("d-none")
                 preview.style.display = "block";
             };
             //This does the loading, which triggers the above

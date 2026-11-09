@@ -62,8 +62,12 @@
                 <span asp-validation-for="Platform" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label>Input Upload</label>
-                <input type="file" id="imageFile" name="imageFile" />
+                <div class="mb-3">
+                    <label>Upload New Image</label>
+                    <input type="file" id="imageFile" name="imageFile" class="form-control image-upload" data-preview="imagePreview" />  @*data-.... adds to its data set, retrieved by JS, in this case, JS will fetch "imagePreview" which in turn refernces the img id below*@
+                </div>
+                <p>Image Preview:</p>
+                <img src="" alt="Uploaded Image Preview" class="w-25 img-thumbnail d-none" id="imagePreview"/>
             </div>
             <div class="mb-3">
                 <input type="submit" value="Create" class="btn btn-primary my-2" />

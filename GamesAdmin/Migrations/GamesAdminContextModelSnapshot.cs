@@ -29,11 +29,17 @@ namespace GamesAdmin.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .IsUnique();
 
                     b.ToTable("AudienceRating");
                 });
@@ -55,7 +61,8 @@ namespace GamesAdmin.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2056)
+                        .HasColumnType("nvarchar(2056)");
 
                     b.Property<int>("GameId")
                         .HasColumnType("int");

@@ -20,7 +20,9 @@ namespace GamesAdmin.Controllers
         // GET: AudienceRatings
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AudienceRating.ToListAsync());
+            return View(await _context.AudienceRating
+                .OrderBy(r => r.Order)
+                .ToListAsync());
         }
 
         // GET: AudienceRatings/Details/5
@@ -50,8 +52,15 @@ namespace GamesAdmin.Controllers
         // POST: AudienceRatings/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title")] AudienceRating audienceRating)
+        public async Task<IActionResult> Create([Bind("Id,Title,Order")] AudienceRating audienceRating)
         {
+            Console.WriteLine($"Submitted Order: {audienceRating.Order}");
+
+            if (await _context.AudienceRating.AnyAsync(r => r.Order == audienceRating.Order))
+            {
+                ModelState.AddModelError("Order", "This order is already assigned to another rating.");
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(audienceRating);
@@ -80,11 +89,16 @@ namespace GamesAdmin.Controllers
         // POST: AudienceRatings/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title")] AudienceRating audienceRating)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Order")] AudienceRating audienceRating)
         {
             if (id != audienceRating.Id)
             {
                 return NotFound();
+            }
+
+            if (await _context.AudienceRating.AnyAsync(r => r.Order == audienceRating.Order && r.Id != audienceRating.Id))
+            {
+                ModelState.AddModelError("Order", "This order is already assigned to another rating.");
             }
 
             if (ModelState.IsValid)
