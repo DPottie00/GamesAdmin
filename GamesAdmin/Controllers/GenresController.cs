@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace GamesAdmin.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "administrator")]
     public class GenresController : Controller
     {
         private readonly GamesAdminContext _context;

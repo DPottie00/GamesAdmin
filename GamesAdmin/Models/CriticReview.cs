@@ -17,6 +17,7 @@ namespace GamesAdmin.Models
 
         [Display(Name = "Review")]
         [MaxLength(2056)]
+        [MinLength(5)]
         public string Description { get; set; } = string.Empty;
 
         [Required]
