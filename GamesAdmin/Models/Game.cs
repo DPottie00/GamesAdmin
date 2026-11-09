@@ -26,6 +26,14 @@ namespace GamesAdmin.Models
         [Display(Name = "ESRB Rating")]
         public AudienceRating AudienceRating { get; set; } = null!;
 
+        public int PlatformId { get; set; }
+        [ValidateNever]
+        public Platform Platform { get; set; } = null!;
+
+        public int DeveloperId { get; set; }
+        [ValidateNever]
+        public Developer Developer { get; set; } = null!;
+
         [ValidateNever]
         public List<CriticReview> CriticReviews { get; set; } = new List<CriticReview>();
 
@@ -47,11 +55,6 @@ namespace GamesAdmin.Models
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }  //Initial Release -- Think about Early Access titles in future?
 
-        [Required]
-        public string Developer {  get; set; } = string.Empty; //One Dev per game for now
-
-        [Required]
-        public string Platform {  get; set; } = string.Empty; //One Platform per game for now
 
         public string ImageUrl { get; set; } = string.Empty;
 

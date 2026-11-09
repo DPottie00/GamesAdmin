@@ -80,6 +80,23 @@ namespace GamesAdmin.Migrations
                     b.ToTable("CriticReview");
                 });
 
+            modelBuilder.Entity("GamesAdmin.Models.Developer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Developer");
+                });
+
             modelBuilder.Entity("GamesAdmin.Models.Game", b =>
                 {
                     b.Property<int>("Id")
@@ -91,9 +108,8 @@ namespace GamesAdmin.Migrations
                     b.Property<int>("AudienceRatingId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Developer")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("DeveloperId")
+                        .HasColumnType("int");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
@@ -102,9 +118,8 @@ namespace GamesAdmin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Platform")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReleaseDate")
                         .HasColumnType("datetime2");
@@ -126,7 +141,11 @@ namespace GamesAdmin.Migrations
 
                     b.HasIndex("AudienceRatingId");
 
+                    b.HasIndex("DeveloperId");
+
                     b.HasIndex("GenreId");
+
+                    b.HasIndex("PlatformId");
 
                     b.ToTable("Game");
                 });
@@ -148,6 +167,23 @@ namespace GamesAdmin.Migrations
                     b.ToTable("Genre");
                 });
 
+            modelBuilder.Entity("GamesAdmin.Models.Platform", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Platform");
+                });
+
             modelBuilder.Entity("GamesAdmin.Models.CriticReview", b =>
                 {
                     b.HasOne("GamesAdmin.Models.Game", "Game")
@@ -167,18 +203,39 @@ namespace GamesAdmin.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GamesAdmin.Models.Developer", "Developer")
+                        .WithMany("Games")
+                        .HasForeignKey("DeveloperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GamesAdmin.Models.Genre", "Genre")
                         .WithMany("Games")
                         .HasForeignKey("GenreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GamesAdmin.Models.Platform", "Platform")
+                        .WithMany("Games")
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("AudienceRating");
 
+                    b.Navigation("Developer");
+
                     b.Navigation("Genre");
+
+                    b.Navigation("Platform");
                 });
 
             modelBuilder.Entity("GamesAdmin.Models.AudienceRating", b =>
+                {
+                    b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("GamesAdmin.Models.Developer", b =>
                 {
                     b.Navigation("Games");
                 });
@@ -189,6 +246,11 @@ namespace GamesAdmin.Migrations
                 });
 
             modelBuilder.Entity("GamesAdmin.Models.Genre", b =>
+                {
+                    b.Navigation("Games");
+                });
+
+            modelBuilder.Entity("GamesAdmin.Models.Platform", b =>
                 {
                     b.Navigation("Games");
                 });
