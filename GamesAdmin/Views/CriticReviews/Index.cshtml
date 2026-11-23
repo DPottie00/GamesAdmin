@@ -3,7 +3,7 @@
     ViewData["Title"] = "Critic Reviews";
 }
 
-<h1>@(User.FindFirst("nickname")?.Value)'s Reviews</h1>
+<h1>@(User.Identity.Name)'s Reviews</h1>
 <h3>Published Reviews</h3>
 <table class="table">
     <thead>

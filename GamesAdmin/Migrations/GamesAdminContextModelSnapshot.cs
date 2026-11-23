@@ -184,6 +184,24 @@ namespace GamesAdmin.Migrations
                     b.ToTable("Platform");
                 });
 
+            modelBuilder.Entity("GamesAdmin.Models.UserSnapshot", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserSnapshot");
+                });
+
             modelBuilder.Entity("GamesAdmin.Models.CriticReview", b =>
                 {
                     b.HasOne("GamesAdmin.Models.Game", "Game")
